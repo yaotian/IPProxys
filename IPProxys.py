@@ -1,4 +1,6 @@
-#coding:utf-8
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+
 import BaseHTTPServer
 import threading
 import logging
@@ -13,15 +15,16 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 logging.config.fileConfig('logging.conf')
 
-class IPProxys(object):
 
+class IPProxys(object):
     def startApiServer(self):
         '''
         启动api服务器
         :return:
         '''
-        logging.info('Start server @ %s:%s' %('0.0.0.0',API_PORT))
-        server = BaseHTTPServer.HTTPServer(('0.0.0.0',API_PORT), WebRequestHandler)
+        logging.info('Start server @ %s:%s' % ('0.0.0.0', API_PORT))
+        server = BaseHTTPServer.HTTPServer(
+            ('0.0.0.0', API_PORT), WebRequestHandler)
         server.serve_forever()
 
     def startSpider(self):
@@ -29,7 +32,8 @@ class IPProxys(object):
         spider = ProxySpider()
         spider.run()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
 
     proxys = IPProxys()
 
@@ -37,9 +41,3 @@ if __name__=="__main__":
     spider = threading.Thread(target=proxys.startSpider)
     apiServer.start()
     spider.start()
-
-
-
-
-
-

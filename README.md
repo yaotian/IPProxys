@@ -138,3 +138,8 @@ print r.text
 <br/>
 1.修复bug ,将数据库进行压缩
 <br/>
+
+
+----------------------Yaotian Update 2016-11-28---------------
+Update config, TEST_URL 使用头条的api链接，这样能保证头条可用
+update validator, 头条的TEST_URL抓取后，验证是否抓取得到数据，否则剔除此ip
