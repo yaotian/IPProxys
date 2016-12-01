@@ -34,9 +34,11 @@ class Validator(object):
         try:
             # 首先将超时的全部删除
             self.deleteOld()
+
             # 接着检测剩余的ip,是否可用
             results = self.sqlHelper.selectAll()
             self.detect_pool.map(self.detect_db, results)
+
             # 将数据库进行压缩
             self.sqlHelper.compress()
 
@@ -122,14 +124,16 @@ class Validator(object):
             "http": "http://%s:%s" % (ip, port),
             "https": "http://%s:%s" % (ip, port)
         }
-        proxyType = self.checkProxyType(proxies)
-        if proxyType == 3:
-            logger.info('failed %s:%s' % (ip, port))
 
-            proxy = None
-            return proxy
-        else:
-            proxy['type'] = proxyType
+        # 不检测
+        # proxyType = self.checkProxyType(proxies)
+        # if proxyType == 3:
+        #     logger.info('failed %s:%s' % (ip, port))
+
+        #     proxy = None
+        #     return proxy
+        # else:
+        #     proxy['type'] = proxyType
         start = time.time()
         try:
             r = requests.get(url=TEST_URL,
@@ -142,9 +146,7 @@ class Validator(object):
                 logger.info('failed %s:%s' % (ip, port))
                 proxy = None
             else:
-                logger.info(r.text)
                 data = json.loads(r.text)
-                logger.info(data)
                 has_more = data['has_more']
                 logger.info(has_more)
                 if not has_more:
